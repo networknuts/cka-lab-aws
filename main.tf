@@ -153,7 +153,7 @@ resource "aws_instance" "manager" {
         subnet_id = "${aws_subnet.subnet_public.id}"
         vpc_security_group_ids = ["${aws_security_group.sg_newvpc.id}"]
         private_ip = "10.0.1.100"
-        key_name = "hpe-cka"
+        key_name = "alok-summer-2023"
         root_block_device {
           volume_size = "26"
           volume_type = "gp2"
@@ -196,7 +196,7 @@ resource "aws_instance" "nodeone" {
         subnet_id = "${aws_subnet.subnet_private.id}"
         vpc_security_group_ids = ["${aws_security_group.sg_newvpc.id}"]
         private_ip = "10.0.2.101"
-        key_name = "hpe-cka"
+        key_name = "alok-summer-2023"
         root_block_device {
           volume_size = "26"
           volume_type = "gp2"
@@ -223,7 +223,7 @@ resource "aws_instance" "nodetwo" {
         subnet_id = "${aws_subnet.subnet_private.id}"
         vpc_security_group_ids = ["${aws_security_group.sg_newvpc.id}"]
         private_ip = "10.0.2.102"
-        key_name = "hpe-cka"
+        key_name = "alok-summer-2023"
         root_block_device {
           volume_size = "26"
           volume_type = "gp2"
