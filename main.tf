@@ -1,4 +1,12 @@
+# specify region
+provider "aws" {
+        region     = "ap-south-1"
+}
+
+
 # code - creating vpc
+
+
 
 resource "aws_vpc" "vpcone" {
         cidr_block = "${var.vpc_cidr}"
