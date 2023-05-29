@@ -1,4 +1,4 @@
-# jenkins pipeline to create infra on aws with code on git
+/* # jenkins pipeline to create infra on aws with code on git
 # global credentials: AWS_ACCESS_KEY_ID=<your aws key>
 # global credentials: AWS_SECRET_ACCESS_KEY=<your aws secret key>
 # project = pipeline
@@ -9,6 +9,8 @@
 # 
 
 ### Jenkinsfile need to be on git
+## comments ends here
+*/
 
 pipeline {
     agent any
