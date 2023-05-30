@@ -117,15 +117,15 @@ echo "BOOTSTRAP CLUSTER"
 
 sudo kubeadm init --apiserver-advertise-address=10.0.1.100 --pod-network-cidr=172.16.0.0/24 
 
-sudo mkdir -p "$HOME"/.kube
-sudo cp -i /etc/kubernetes/admin.conf "$HOME"/.kube/config
-sudo chown "$(id -u)":"$(id -g)" "$HOME"/.kube/config
+sudo mkdir -p /root/.kube
+sudo cp -i /etc/kubernetes/admin.conf /root/.kube/config
+sudo chown 0:0 /root/.kube/config
 
 # Install Calico Network Plugin Network
 
 echo "Now get calico.yaml and apply it"
-sudo wget https://raw.githubusercontent.com/networknuts/cka-lab-aws/main/calico.yaml 
-sudo kubectl apply -f calico.yaml
+sudo wget -O /tmp/calico.yaml https://raw.githubusercontent.com/networknuts/cka-lab-aws/main/calico.yaml 
+sudo kubectl apply -f /tmp/calico.yaml
 
 sleep 30
 kubectl get nodes
