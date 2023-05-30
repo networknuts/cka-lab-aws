@@ -124,8 +124,8 @@ sudo chown "$(id -u)":"$(id -g)" "$HOME"/.kube/config
 # Install Calico Network Plugin Network
 
 echo "Now get calico.yaml and apply it"
-wget https://raw.githubusercontent.com/networknuts/cka-lab-aws/main/calico.yaml 
-kubectl apply -f calico.yaml
+sudo wget https://raw.githubusercontent.com/networknuts/cka-lab-aws/main/calico.yaml 
+sudo kubectl apply -f calico.yaml
 
 sleep 30
 kubectl get nodes
