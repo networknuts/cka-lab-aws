@@ -105,6 +105,9 @@ cat > /etc/default/kubelet << EOF
 KUBELET_EXTRA_ARGS=--node-ip=$local_ip
 EOF
 
+#setting IP in /etc/hosts and hostname" ####
+sudo echo "10.0.1.100 manager" >> /etc/hosts
+sudo hostnamectl set-hostname manager
 echo "===="
 echo "Generate token on manager using"
 echo "==="
