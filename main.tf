@@ -147,7 +147,7 @@ resource "aws_security_group" "sg_newvpc" {
 
 # code - create instance in public subnet - manager
 
-data "template_file" "web-userdata" {
+data "template_file" "manager-userdata" {
         template = "${file("common-server.sh")}"
 }
 
@@ -163,7 +163,7 @@ resource "aws_instance" "manager" {
           volume_type = "gp2"
           delete_on_termination = true
         }
-        user_data = "${data.template_file.web-userdata.rendered}"
+        user_data = "${data.template_file.manager-userdata.rendered}"
         tags = {
                 Name = "${var.env_tag}-mgr"
         }
@@ -188,6 +188,9 @@ output "manager-eip" {
 
 
 # code for nodeone in private subnet
+data "template_file" "nodeone-userdata" {
+        template = "${file("common-nodeone.sh")}"
+}
 
 resource "aws_instance" "nodeone" {
         ami = "${var.instance_ami}"
@@ -201,22 +204,16 @@ resource "aws_instance" "nodeone" {
           volume_type = "gp2"
           delete_on_termination = true
         }
-        user_data = "${data.template_file.web-userdata.rendered}"
-        user_data = <<-EOF
-          #!/bin/bash
-          sudo hostnamectl set-hostname nodeone
-          sudo echo "10.0.2.101 nodeone" >> /etc/hosts
-          echo -e "\n manager - 10.0.1.100 \n nodeone - 10.0.2.101 \n nodetwo - 10.0.2.102 \n" > /root/cluster-ip.txt
-        EOF
-
-
+        user_data = "${data.template_file.nodeone-userdata.rendered}"
         tags = {
                 Name = "${var.env_tag}-nodeone"
         }
 }
 
 # code for nodetwo in private subnet
-
+data "template_file" "nodetwo-userdata" {
+        template = "${file("common-nodetwo.sh")}"
+}
 resource "aws_instance" "nodetwo" {
         ami = "${var.instance_ami}"
         instance_type = "${var.nodetwo_instance_type}"
@@ -229,14 +226,7 @@ resource "aws_instance" "nodetwo" {
           volume_type = "gp2"
           delete_on_termination = true
         }
-        user_data = <<-EOF
-          #!/bin/bash
-          sudo hostnamectl set-hostname nodetwo
-          sudo echo "10.0.2.102 nodetwo" >> /etc/hosts
-          echo -e "\n manager - 10.0.1.100 \n nodeone - 10.0.2.101 \n nodetwo - 10.0.2.102 \n" > /root/cluster-ip.txt
-        EOF
-
-
+        user_data = "${data.template_file.nodetwo-userdata.rendered}"
         tags = {
                 Name = "${var.env_tag}-nodetwo"
         }
