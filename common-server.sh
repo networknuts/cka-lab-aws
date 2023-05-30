@@ -107,6 +107,8 @@ EOF
 
 #setting IP in /etc/hosts and hostname" ####
 sudo echo "10.0.1.100 manager" >> /etc/hosts
+sudo echo "10.0.2.101 nodeone" >> /etc/hosts
+sudo echo "10.0.2.102 nodetwo" >> /etc/hosts
 sudo hostnamectl set-hostname manager
 echo "===="
 echo "Generate token on manager using"
