@@ -117,7 +117,7 @@ echo "BOOTSTRAP CLUSTER"
 
 sudo kubeadm init --apiserver-advertise-address=10.0.1.100 --pod-network-cidr=172.16.0.0/24 
 
-mkdir -p "$HOME"/.kube
+sudo mkdir -p "$HOME"/.kube
 sudo cp -i /etc/kubernetes/admin.conf "$HOME"/.kube/config
 sudo chown "$(id -u)":"$(id -g)" "$HOME"/.kube/config
 
