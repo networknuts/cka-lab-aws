@@ -130,9 +130,9 @@ sudo kubectl apply -f /tmp/calico.yaml
 sleep 30
 kubectl get nodes
 
-echo "GENERATING TOKEN FILE under ~/token.sh"
-echo '#!/bin/bash' > token.sh
-echo "(kubeadm token create --print-join-command)" | bash >> token.sh
+echo "GENERATING TOKEN FILE under /tmp/token.sh"
+echo '#!/bin/bash' > /tmp/token.sh
+echo "(kubeadm token create --print-join-command)" | bash >> /tmp/token.sh
 
 
 
