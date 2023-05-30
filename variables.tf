@@ -19,8 +19,8 @@ variable "availability_zone" {
 }
 
 variable "instance_ami" {
-        default = "ami-0ef82eeba2c7a0eeb"
-        description = "default ami for k8s ubuntu 20.04 LTS"
+        default = "ami-0f5ee92e2d63afc18"
+        description = "default ami for k8s ubuntu 22.04 LTS"
 }
 
 variable "instance_type" {
