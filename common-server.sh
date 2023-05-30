@@ -4,6 +4,12 @@
 # will run on Ubuntu Server 22.04 LTS
 # If you see some warning at certificates, RUN AGAIN
 sudo -i
+echo "setting HOSTNAME"
+hostnamectl set-hostname manager
+
+echo "setting /etc/hosts file"
+echo -n "10.0.1.100 manager \n10.0.2.101 nodeone \n10.0.2.102 nodetwo" >> /etc/hosts
+
 
 #set -euxo pipefail
 apt-get update -y
@@ -107,12 +113,21 @@ cat > /etc/default/kubelet << EOF
 KUBELET_EXTRA_ARGS=--node-ip=$local_ip
 EOF
 
-echo "===="
-echo "Generate token on manager using"
-echo "==="
-echo "kubeadm token create --print-join-command"
-echo ""
-echo ""
-echo "REBOOTING in 10 seconds"
-sleep 10
-reboot
+echo "BOOTSTRAP CLUSTER"
+
+sudo kubeadm init --apiserver-advertise-address=10.0.1.100 --pod-network-cidr=172.16.0.0/24 
+
+mkdir -p "$HOME"/.kube
+sudo cp -i /etc/kubernetes/admin.conf "$HOME"/.kube/config
+sudo chown "$(id -u)":"$(id -g)" "$HOME"/.kube/config
+
+# Install Calico Network Plugin Network
+
+echo "Now get calico.yaml and apply it"
+kubectl apply -f calico.yaml
+
+sleep 30
+kubectl get nodes
+
+
+
