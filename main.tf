@@ -147,6 +147,10 @@ resource "aws_security_group" "sg_newvpc" {
 
 # code - create instance in public subnet - manager
 
+data "template_file" "web-userdata" {
+        template = "${file("common-server.sh")}"
+}
+
 resource "aws_instance" "manager" {
         ami = "${var.instance_ami}"
         instance_type = "${var.instance_type}"
@@ -159,12 +163,7 @@ resource "aws_instance" "manager" {
           volume_type = "gp2"
           delete_on_termination = true
         }
-        user_data = <<-EOF
-          #!/bin/bash
-          sudo hostnamectl set-hostname manager
-          sudo echo "10.0.1.100 manager" >> /etc/hosts
-          echo -e "\n manager - 10.0.1.100 \n nodeone - 10.0.2.101 \n nodetwo - 10.0.2.102 \n" > /root/cluster-ip.txt
-        EOF
+        user_data = "${data.template_file.web-userdata.rendered}"
         tags = {
                 Name = "${var.env_tag}-mgr"
         }
@@ -202,6 +201,7 @@ resource "aws_instance" "nodeone" {
           volume_type = "gp2"
           delete_on_termination = true
         }
+        user_data = "${data.template_file.web-userdata.rendered}"
         user_data = <<-EOF
           #!/bin/bash
           sudo hostnamectl set-hostname nodeone
